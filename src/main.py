@@ -7,10 +7,11 @@ from spotipy import SpotifyOAuth
 
 app = Sanic("manage_playlists")
 
-load_dotenv()
-scopes = os.getenv("SCOPES").split()
+load_dotenv("./../.env")
+scopes = os.getenv("SCOPES").split(" ")
 
 spotify_api = None
+
 
 @app.get("/auth/login")
 async def auth_login(request):
@@ -20,6 +21,7 @@ async def auth_login(request):
         "message": "Successfully autenticate"
     })
 
+
 @app.get("/auth/logout")
 async def auth_logout(request):
     spotify_api = None
@@ -28,3 +30,5 @@ async def auth_logout(request):
         "message": "Successfully logout"
     })
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT")))
